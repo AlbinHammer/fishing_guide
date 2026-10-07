@@ -16,3 +16,22 @@ Du kan också starta appen manuellt från projektmappen med:
 Öppna därefter http://localhost:8080/ i webbläsaren. Öppna inte
 src\main\resources\static\index.html direkt från filsystemet: sidan behöver
 Spring Boot-servern för API-anropen, bland annat /api/evaluate.
+
+STEG
+1. Grundsida med dropdown för art och en Leaflet-karta (OpenStreetMap).
+   Startposition: Stockholms skärgård nära Vaxholm. Klick på kartan sparar
+   latitud/longitud och visar en markör.
+2. Hämta väder från Open-Meteo (ingen API-nyckel) för vald plats: vindhastighet
+   (m/s), vindriktning (grader), lufttryck, molnighet, temperatur, timvis
+   prognos 48 h. Visa i en enkel tabell. Hantera fel i API-anropet.
+3. Importera regelmotorn från fishing-rules.js (bifogad). Ändra INTE reglerna
+   själv: anropa evaluate(art, conditions) och visa score, rating, reasons,
+   methods och warnings. Räkna ut pressureTrend som skillnaden i lufttryck
+   mellan nu och 3 timmar bakåt, och isDawnOrDusk utifrån soluppgång/solnedgång
+   (±1 h) från Open-Meteo.
+4. Visa en tidslinje över nästa 24–48 h med score per timme så att man ser
+   bästa tidsfönstret.
+5. Lägg till en lista med egna platser (JSON-fil) med fält: namn, lat, lng,
+   arter, bottentyp, vindskydd (vilka vindriktningar platsen är skyddad från).
+   Markera platser på kartan och sortera dem efter hur väl de passar dagens
+   vindriktning.
