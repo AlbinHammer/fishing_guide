@@ -1,2 +1,18 @@
-Starta appen.
-Skriv in http://localhost:8080/ i webbläsaren.
+Starta Fiskeguiden i Windows
+============================
+
+1. Installera JDK 21 eller senare.
+2. Dubbelklicka på start-app.bat i projektmappen.
+3. Vänta tills appen har startat; webbläsaren öppnas automatiskt på
+   http://localhost:8080/.
+
+Ett konsolfönster visar serverns loggar och måste vara öppet medan appen
+används. Stäng fönstret för att stoppa servern.
+
+Du kan också starta appen manuellt från projektmappen med:
+
+    .\mvnw.cmd spring-boot:run
+
+Öppna därefter http://localhost:8080/ i webbläsaren. Öppna inte
+src\main\resources\static\index.html direkt från filsystemet: sidan behöver
+Spring Boot-servern för API-anropen, bland annat /api/evaluate.
