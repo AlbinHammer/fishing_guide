@@ -1,41 +1,56 @@
 Own project with help of AI-agent
 
 
+Start the Fishing Guide on Windows
+==================================
 
-Starta Fiskeguiden i Windows
-============================
+1. Install JDK 21 or later.
+2. Double-click start-app.bat in the project folder.
+3. Wait for the app to start; your browser opens automatically. The startup
+   script uses port 8080, or selects an available port up to 8090 if it is
+   already in use.
 
-1. Installera JDK 21 eller senare.
-2. Dubbelklicka på start-app.bat i projektmappen.
-3. Vänta tills appen har startat; webbläsaren öppnas automatiskt på
-   http://localhost:8080/.
+A console window displays the server logs and must remain open while the app
+is running. Close the window to stop the server.
 
-Ett konsolfönster visar serverns loggar och måste vara öppet medan appen
-används. Stäng fönstret för att stoppa servern.
-
-Du kan också starta appen manuellt från projektmappen med:
+You can also start the app manually from the project folder:
 
     .\mvnw.cmd spring-boot:run
 
-Öppna därefter http://localhost:8080/ i webbläsaren. Öppna inte
-src\main\resources\static\index.html direkt från filsystemet: sidan behöver
-Spring Boot-servern för API-anropen, bland annat /api/evaluate.
+Then open http://localhost:8080/ in your browser. Do not open
+src\main\resources\static\index.html directly from the file system: the page
+needs the Spring Boot server for API requests, including /api/evaluate.
 
-STEG
-1. Grundsida med dropdown för art och en Leaflet-karta (OpenStreetMap).
-   Startposition: Stockholms skärgård nära Vaxholm. Klick på kartan sparar
-   latitud/longitud och visar en markör.
-2. Hämta väder från Open-Meteo (ingen API-nyckel) för vald plats: vindhastighet
-   (m/s), vindriktning (grader), lufttryck, molnighet, temperatur, timvis
-   prognos 48 h. Visa i en enkel tabell. Hantera fel i API-anropet.
-3. Importera regelmotorn från fishing-rules.js (bifogad). Ändra INTE reglerna
-   själv: anropa evaluate(art, conditions) och visa score, rating, reasons,
-   methods och warnings. Räkna ut pressureTrend som skillnaden i lufttryck
-   mellan nu och 3 timmar bakåt, och isDawnOrDusk utifrån soluppgång/solnedgång
-   (±1 h) från Open-Meteo.
-4. Visa en tidslinje över nästa 24–48 h med score per timme så att man ser
-   bästa tidsfönstret.
-5. Lägg till en lista med egna platser (JSON-fil) med fält: namn, lat, lng,
-   arter, bottentyp, vindskydd (vilka vindriktningar platsen är skyddad från).
-   Markera platser på kartan och sortera dem efter hur väl de passar dagens
-   vindriktning.
+Log catches with the "Log catch" button. Choose a species from the list or
+enter a custom name; weight and length are optional. To set the catch
+location, click "Choose location on map" and then click the map. The catch log
+is stored locally in your browser and is not shared between browsers or
+devices.
+
+
+
+
+
+FEATURES
+1. A basic page with a species dropdown and a Leaflet map (OpenStreetMap).
+   The initial map position is near Vaxholm in the Stockholm archipelago.
+   Clicking the map saves the latitude and longitude and displays a marker.
+2. Fetch weather for the selected location from Open-Meteo (no API key
+   required): wind speed (m/s), wind direction (degrees), air pressure, cloud
+   cover, temperature, and a 48-hour hourly forecast. Display the data in a
+   simple table and handle API errors.
+3. Use the rule engine from fishing-rules.js (provided). Do NOT change the
+   rules: call evaluate(species, conditions) and display score, rating,
+   reasons, methods, and warnings. Calculate pressureTrend as the difference
+   in air pressure between now and three hours earlier, and calculate
+   isDawnOrDusk based on sunrise/sunset (±1 hour) from Open-Meteo.
+4. Display a timeline with hourly scores for the next 24–48 hours to identify
+   the best fishing window. Calculate each hourly score with the rule engine
+   and highlight the best consecutive three-hour window.
+5. Add a list of custom spots (JSON file) with these fields: name, lat, lng,
+   species, bottom type, and wind shelter (the wind directions the spot is
+   sheltered from). Mark the spots on the map and sort them by how well they
+   suit the current wind direction.
+6. Log catches with a species, optional weight and length, and an optional
+   location marker on the map. Store the log locally in the browser.
+
