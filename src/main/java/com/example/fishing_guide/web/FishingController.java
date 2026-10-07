@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.Normalizer;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -33,6 +35,21 @@ public class FishingController {
         return ruleEngine.evaluate(parseSpecies(request.species()), request.conditions());
     }
 
+    @PostMapping("/evaluate/forecast")
+    public List<Evaluation> evaluateForecast(@RequestBody ForecastEvaluationRequest request) {
+        if (request == null || request.conditions() == null || request.conditions().isEmpty()
+                || request.conditions().size() > 48
+                || request.conditions().stream().anyMatch(Objects::isNull)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Mellan 1 och 48 giltiga timförhållanden krävs.");
+        }
+
+        Species species = parseSpecies(request.species());
+        return request.conditions().stream()
+                .map(conditions -> ruleEngine.evaluate(species, conditions))
+                .toList();
+    }
+
     private Species parseSpecies(String value) {
         if (value == null || value.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "En giltig art krävs.");
@@ -51,5 +68,8 @@ public class FishingController {
     }
 
     public record EvaluationRequest(String species, Conditions conditions) {
+    }
+
+    public record ForecastEvaluationRequest(String species, List<Conditions> conditions) {
     }
 }
