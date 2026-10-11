@@ -697,14 +697,6 @@
             font-size: 0.75rem;
         }
 
-        .depth-note {
-            margin: 0;
-            padding: 0 24px 14px;
-            color: #5c6c66;
-            font-size: 0.82rem;
-            line-height: 1.5;
-        }
-
         @media (max-width: 620px) {
             .page {
                 width: min(100% - 24px, 1100px);
@@ -753,20 +745,9 @@
             .evaluation-heading,
             .evaluation-content,
             .timeline-heading,
-            .timeline-content,
-            .saved-spots-heading {
+            .timeline-content {
                 padding-right: 18px;
                 padding-left: 18px;
-            }
-
-            .saved-spots-list {
-                padding-right: 18px;
-                padding-left: 18px;
-            }
-
-            .saved-spot {
-                align-items: flex-start;
-                flex-direction: column;
             }
 
             .catch-log-heading,
@@ -847,7 +828,7 @@
             </div>
             <button class="catch-log-add" id="add-catch-button" type="button">Logga fångst</button>
         </div>
-        <div class="catch-log-filter" id="catch-log-filter-wrap">
+        <div class="catch-log-filter">
             <label for="catch-log-species-filter">Visa art</label>
             <select id="catch-log-species-filter" aria-label="Filtrera fångster efter art">
                 <option value="all">Alla arter</option>
@@ -872,7 +853,7 @@
         <div class="weather-content">
             <h3>Just nu</h3>
             <div class="table-scroll">
-                <table class="current-table">
+                <table>
                     <thead>
                     <tr>
                         <th scope="col">Temperatur</th>
@@ -1050,7 +1031,6 @@
         const timelineChartElement = document.getElementById("timeline-chart");
         const bestWindowElement = document.getElementById("best-window");
         const map = L.map("map").setView([59.403, 18.35], 12);
-        const savedSpotMarkers = L.layerGroup().addTo(map);
         const catchMarkers = L.layerGroup().addTo(map);
         let selectedMarker;
         let catchPreviewMarker;
@@ -1744,8 +1724,6 @@
             const visibleEndpointPoint = clampPointToMap(endpointPoint, mapSize, padding);
             const visibleOrigin = map.containerPointToLatLng(originPoint);
             const visibleEndpoint = map.containerPointToLatLng(visibleEndpointPoint);
-            const origin = windArrowOrigin;
-
             if (windArrowLine) {
                 windArrowLine.setLatLngs([visibleOrigin, visibleEndpoint]);
                 windArrowMarker.setLatLng(visibleEndpoint);

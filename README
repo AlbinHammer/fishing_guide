@@ -44,9 +44,8 @@ You can also double-click `start-app.bat` in the project folder to launch it wit
 2. Live weather and forecasts from Open-Meteo, including wind, pressure, cloud cover, temperature, and hourly forecast.
 3. Rule-based evaluation using species-specific conditions and warnings.
 4. Hourly fishing score timeline with the strongest consecutive 3-hour window highlighted.
-5. Custom saved spots with wind shelter metadata and map markers.
-6. Local catch logging stored in the browser only.
-7. Catch-time weather uses an SMHI station within 50 km and selects observations within one hour, preferring approved quality codes. CERRA via Open-Meteo is used for missing core values when available. The station, source, and quality code are shown with each saved catch. Historical weather is limited to five years in the app.
+5. Local catch logging stored in the browser only.
+6. Catch-time weather uses an SMHI station within 50 km and selects observations within one hour, preferring approved quality codes. CERRA via Open-Meteo is used for missing core values when available. The station, source, and quality code are shown with each saved catch. Historical weather is limited to five years in the app.
 
 SMHI data is credited in catch details under CC BY 4.0 SE. Open-Meteo weather is credited where displayed under CC BY 4.0. The free Open-Meteo API is for non-commercial use; commercial use requires an appropriate subscription.
 
