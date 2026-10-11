@@ -1,52 +1,61 @@
-Start the Fishing Guide on Windows
-==================================
+# Fishing Guide
+
+A Spring Boot app for planning fishing trips based on species, weather, and local conditions.
+
+## What it does
+
+- Choose a fish species and a map location
+- Fetch live weather from Open-Meteo
+- Score the current and upcoming conditions with a fishing rule engine
+- Show the best fishing window over the next 24–48 hours
+- Display saved fishing spots and sort them by wind shelter suitability
+- Log catches locally in the browser
+
+## Tech stack
+
+- Java 21
+- Spring Boot 4
+- Maven
+- Leaflet + OpenStreetMap
+- Open-Meteo API
+
+## Run locally on Windows
 
 1. Install JDK 21 or later.
-2. Double-click start-app.bat in the project folder.
-3. Wait for the app to start; your browser opens automatically. The startup
-   script uses port 8080, or selects an available port up to 8090 if it is
-   already in use.
+2. Open a terminal in the project folder.
+3. Start the app:
 
-A console window displays the server logs and must remain open while the app
-is running. Close the window to stop the server.
+   .\mvnw.cmd spring-boot:run
 
-You can also start the app manually from the project folder:
+4. Open http://localhost:8080/ in your browser.
 
-    .\mvnw.cmd spring-boot:run
+You can also double-click `start-app.bat` in the project folder to launch it with the bundled startup script.
 
-Then open http://localhost:8080/ in your browser. Do not open
-src\main\resources\static\index.html directly from the file system: the page
-needs the Spring Boot server for API requests, including /api/evaluate.
+## Notes
 
-Log catches with the "Log catch" button. Choose a species from the list or
-enter a custom name; weight and length are optional. To set the catch
-location, click "Choose location on map" and then click the map. The catch log
-is stored locally in your browser and is not shared between browsers or
-devices.
+- The app uses port 8080 by default and falls back to an available port up to 8090 if needed.
+- Keep the console window open while the app is running.
+- Do not open `src\main\resources\static\index.html` directly from disk; the page depends on the Spring Boot server.
 
+## Features
 
+1. Species selector and map with Vaxholm as the default area.
+2. Weather data from Open-Meteo, including wind, pressure, cloud cover, temperature, and hourly forecast.
+3. Rule-based evaluation using species-specific conditions and warnings.
+4. Hourly fishing score timeline with the strongest consecutive 3-hour window highlighted.
+5. Custom saved spots with wind shelter metadata and map markers.
+6. Local catch logging stored in the browser only.
 
+## Project structure
 
+- `src/main/java` – application and rule logic
+- `src/main/resources/static` – frontend and map assets
+- `src/test/java` – automated tests
 
-FEATURES
-1. A basic page with a species dropdown and a Leaflet map (OpenStreetMap).
-   The initial map position is near Vaxholm in the Stockholm archipelago.
-   Clicking the map saves the latitude and longitude and displays a marker.
-2. Fetch weather for the selected location from Open-Meteo (no API key
-   required): wind speed (m/s), wind direction (degrees), air pressure, cloud
-   cover, temperature, and a 48-hour hourly forecast. Display the data in a
-   simple table and handle API errors.
-3. Use the rule engine from fishing-rules.js (provided). Do NOT change the
-   rules: call evaluate(species, conditions) and display score, rating,
-   reasons, methods, and warnings. Calculate pressureTrend as the difference
-   in air pressure between now and three hours earlier, and calculate
-   isDawnOrDusk based on sunrise/sunset (±1 hour) from Open-Meteo.
-4. Display a timeline with hourly scores for the next 24–48 hours to identify
-   the best fishing window. Calculate each hourly score with the rule engine
-   and highlight the best consecutive three-hour window.
-5. Add a list of custom spots (JSON file) with these fields: name, lat, lng,
-   species, bottom type, and wind shelter (the wind directions the spot is
-   sheltered from). Mark the spots on the map and sort them by how well they
-   suit the current wind direction.
-6. Log catches with a species, optional weight and length, and an optional
-   location marker on the map. Store the log locally in the browser.
+## Validation
+
+The project is tested with Maven:
+
+```bash
+./mvnw test
+```
