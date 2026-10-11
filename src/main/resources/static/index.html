@@ -125,6 +125,30 @@
             font-size: 0.96rem;
         }
 
+        .map-marker-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 18px;
+            padding: 12px 24px 0;
+            color: #38534a;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .map-marker-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-marker-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgb(255 255 255 / 80%);
+        }
+
         .map-hint {
             margin: 0;
             color: #718079;
@@ -147,88 +171,6 @@
             line-height: 1.5;
         }
 
-        .saved-spots {
-            margin-top: 24px;
-        }
-
-        .saved-spots-heading {
-            padding: 22px 24px;
-            border-bottom: 1px solid #edf1ed;
-        }
-
-        .saved-spots-heading .eyebrow {
-            margin-bottom: 6px;
-        }
-
-        .saved-spots-heading h2 {
-            margin: 0;
-            color: #183c34;
-            font-size: 1.35rem;
-        }
-
-        .saved-spots-status {
-            margin: 10px 0 0;
-            color: #5c6c66;
-            font-size: 0.88rem;
-        }
-
-        .saved-spots-error {
-            color: #a33324;
-        }
-
-        .saved-spots-list {
-            display: grid;
-            gap: 10px;
-            margin: 0;
-            padding: 18px 24px 24px;
-            list-style: none;
-        }
-
-        .saved-spot {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 14px 16px;
-            border: 1px solid #e5ebe6;
-            border-radius: 9px;
-        }
-
-        .saved-spot-details {
-            display: grid;
-            gap: 4px;
-            color: #5c6c66;
-            font-size: 0.85rem;
-        }
-
-        .saved-spot-details strong {
-            color: #20332f;
-            font-size: 0.95rem;
-        }
-
-        .saved-spot-sheltered {
-            color: #347663;
-            font-weight: 650;
-        }
-
-        .saved-spot-button {
-            flex: 0 0 auto;
-            min-height: 38px;
-            padding: 0 12px;
-            border: 1px solid #cbd9d0;
-            border-radius: 8px;
-            background: #fff;
-            color: #20332f;
-            font: inherit;
-            cursor: pointer;
-        }
-
-        .saved-spot-button:hover,
-        .saved-spot-button:focus-visible {
-            border-color: #347663;
-            outline: 2px solid rgb(52 118 99 / 20%);
-        }
-
         .catch-log {
             margin-top: 24px;
         }
@@ -240,6 +182,31 @@
             gap: 20px;
             padding: 22px 24px;
             border-bottom: 1px solid #edf1ed;
+        }
+
+        .catch-log-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px 16px;
+            border-bottom: 1px solid #edf1ed;
+            background: #fbfcfa;
+        }
+
+        .catch-log-filter label {
+            color: #38534a;
+            font-size: 0.9rem;
+            font-weight: 650;
+        }
+
+        .catch-log-filter select {
+            min-height: 42px;
+            min-width: min(280px, 100%);
+            padding: 0 12px;
+            border: 1px solid #cbd9d0;
+            border-radius: 8px;
+            color: #20332f;
+            font: inherit;
         }
 
         .catch-log-heading .eyebrow {
@@ -856,6 +823,11 @@
             <strong>Karta över Stockholms skärgård</strong>
             <p class="map-hint">Kartan startar nära Vaxholm · välj OpenSeaMap för sjömärken</p>
         </div>
+        <div class="map-marker-legend" aria-label="Färgkod för sparade fångster">
+            <span class="map-marker-legend-item"><span class="map-marker-dot" style="background: #f4c542;"></span>Abborre</span>
+            <span class="map-marker-legend-item"><span class="map-marker-dot" style="background: #2ea76a;"></span>Gädda</span>
+            <span class="map-marker-legend-item"><span class="map-marker-dot" style="background: #d94b4b;"></span>Öring</span>
+        </div>
         <p class="catch-location-status" id="catch-map-prompt" role="status" hidden>
             Klicka på kartan för att markera fångstplatsen.
             <button class="catch-map-select" id="cancel-catch-map-button" type="button">Avbryt platsval</button>
@@ -864,15 +836,6 @@
         <p class="map-error" id="map-error" role="status" hidden></p>
         <div class="attribution">Kartdata © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-bidragsgivare</a> · sjömärken © <a href="https://www.openseamap.org/">OpenSeaMap</a> (CC BY-SA)</div>
         <p class="map-note">OpenSeaMap visar sjömärken och annan nautisk information där sådan finns tillgänglig. Täckningen kan variera; använd inte kartan som enda underlag för navigation.</p>
-    </section>
-
-    <section class="saved-spots panel" aria-labelledby="saved-spots-title">
-        <div class="saved-spots-heading">
-            <p class="eyebrow">Dina fiskeplatser</p>
-            <h2 id="saved-spots-title">Sparade platser</h2>
-            <p class="saved-spots-status" id="saved-spots-status" role="status" aria-live="polite">Läser platser …</p>
-        </div>
-        <ul class="saved-spots-list" id="saved-spots-list"></ul>
     </section>
 
     <section class="catch-log panel" aria-labelledby="catch-log-title">
@@ -884,6 +847,12 @@
             </div>
             <button class="catch-log-add" id="add-catch-button" type="button">Logga fångst</button>
         </div>
+        <div class="catch-log-filter" id="catch-log-filter-wrap">
+            <label for="catch-log-species-filter">Visa art</label>
+            <select id="catch-log-species-filter" aria-label="Filtrera fångster efter art">
+                <option value="all">Alla arter</option>
+            </select>
+        </div>
         <p class="catch-log-empty" id="catch-log-empty">Inga fångster loggade ännu.</p>
         <ul class="catch-log-list" id="catch-log-list"></ul>
     </section>
@@ -893,6 +862,10 @@
             <div>
                 <p class="eyebrow">Väder · Open-Meteo</p>
                 <h2 id="weather-title">Väder vid vald plats</h2>
+                <p>
+                    <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Väderdata från Open-Meteo.com</a>
+                    · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>
+                </p>
             </div>
             <p id="weather-status" class="weather-status" role="status" aria-live="polite">Välj en plats på kartan för att hämta väder.</p>
         </div>
@@ -1001,6 +974,17 @@
                     <input id="catch-length" name="length" type="number" min="0.1" max="2000" step="0.1" inputmode="decimal">
                 </div>
             </div>
+            <div class="catch-field">
+                <label for="catch-time-mode">Fångsttid</label>
+                <select id="catch-time-mode" name="catchTimeMode">
+                    <option value="now">Nu</option>
+                    <option value="manual">Manuell tid</option>
+                </select>
+            </div>
+            <div class="catch-field" id="manual-catch-time-field" hidden>
+                <label for="catch-datetime">Datum och tid</label>
+                <input id="catch-datetime" name="catchDateTime" type="datetime-local" step="60" />
+            </div>
             <div>
                 <button class="catch-map-select" id="select-catch-location-button" type="button">Välj plats på kartan</button>
                 <p class="catch-location-status" id="catch-location-status">Ingen plats vald.</p>
@@ -1017,28 +1001,29 @@
 <script src="vendor/leaflet/leaflet.js"></script>
 <script>
     const mapErrorElement = document.getElementById("map-error");
-    const savedSpotsStatusElement = document.getElementById("saved-spots-status");
     const catchLogStatusElement = document.getElementById("catch-log-status");
     if (!window.L) {
         mapErrorElement.textContent = "Kartbiblioteket kunde inte laddas. Kontrollera att sidan öppnas från projektets statiska resurser.";
         mapErrorElement.hidden = false;
-        savedSpotsStatusElement.textContent = "Platsernas karta kunde inte laddas.";
-        savedSpotsStatusElement.classList.add("saved-spots-error");
         catchLogStatusElement.textContent = "Fångstplatsernas karta kunde inte laddas.";
         catchLogStatusElement.classList.add("catch-log-error");
     } else {
         const coordinatesElement = document.getElementById("coordinates");
-        const savedSpotsListElement = document.getElementById("saved-spots-list");
         const catchLogListElement = document.getElementById("catch-log-list");
         const catchLogEmptyElement = document.getElementById("catch-log-empty");
+        const catchLogSpeciesFilterElement = document.getElementById("catch-log-species-filter");
         const addCatchButton = document.getElementById("add-catch-button");
         const catchDialog = document.getElementById("catch-dialog");
         const catchForm = document.getElementById("catch-form");
+        const catchDialogTitleElement = document.getElementById("catch-dialog-title");
         const catchSpeciesElement = document.getElementById("catch-species");
         const customCatchSpeciesFieldElement = document.getElementById("custom-catch-species-field");
         const customCatchSpeciesElement = document.getElementById("custom-catch-species");
         const catchWeightElement = document.getElementById("catch-weight");
         const catchLengthElement = document.getElementById("catch-length");
+        const catchTimeModeElement = document.getElementById("catch-time-mode");
+        const catchDateTimeElement = document.getElementById("catch-datetime");
+        const manualCatchTimeFieldElement = document.getElementById("manual-catch-time-field");
         const catchLocationStatusElement = document.getElementById("catch-location-status");
         const catchMapPromptElement = document.getElementById("catch-map-prompt");
         const catchFormErrorElement = document.getElementById("catch-form-error");
@@ -1071,6 +1056,7 @@
         let catchPreviewMarker;
         let isSelectingCatchLocation = false;
         let selectedCatchCoordinates;
+        let catchEntryBeingEdited = null;
         let catchEntries = [];
         let windArrowLine;
         let windArrowMarker;
@@ -1082,8 +1068,6 @@
         let timelineRequest;
         let latestConditions;
         let latestWeatherData;
-        let latestWindDirection;
-        let savedSpots = [];
 
         const weatherFields = [
             { key: "temperature_2m", label: "Temperatur", format: (value) => `${value.toFixed(1)} °C` },
@@ -1113,6 +1097,9 @@
                 if (hasLatitude !== hasLongitude) {
                     throw new Error(`Fångst ${index + 1} har ofullständiga koordinater.`);
                 }
+                if (entry.weather !== undefined && entry.weather !== null && (typeof entry.weather !== "object" || Array.isArray(entry.weather))) {
+                    throw new Error(`Fångst ${index + 1} har ogiltigt väder.`);
+                }
                 return {
                     id: entry.id,
                     species: entry.species.trim(),
@@ -1120,7 +1107,8 @@
                     length: entry.length,
                     lat: hasLatitude ? entry.lat : null,
                     lng: hasLongitude ? entry.lng : null,
-                    caughtAt: entry.caughtAt
+                    caughtAt: entry.caughtAt,
+                    weather: entry.weather ?? null
                 };
             });
         }
@@ -1150,10 +1138,91 @@
         }
 
         function formatCatchDate(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return "Okänt datum";
+            }
             return new Intl.DateTimeFormat("sv-SE", {
                 dateStyle: "medium",
                 timeStyle: "short"
-            }).format(new Date(value));
+            }).format(date);
+        }
+
+        function formatWeatherSnapshot(weather) {
+            if (!weather || !weather.temperature_2m && weather.temperature_2m !== 0) {
+                return "Väder inte sparat";
+            }
+            const temperature = Number.isFinite(weather.temperature_2m) ? `${weather.temperature_2m.toFixed(1)} °C` : "–";
+            const wind = Number.isFinite(weather.wind_speed_10m) ? `${weather.wind_speed_10m.toFixed(1)} m/s` : "–";
+            const direction = Number.isFinite(weather.wind_direction_10m)
+                ? formatWindDirection(weather.wind_direction_10m)
+                : "–";
+            const conditions = Number.isFinite(weather.cloud_cover)
+                ? getWeatherSummary(weather.cloud_cover).replace("Väder: ", "")
+                : "okänt";
+            return `Temperatur: ${temperature} • Vind: ${wind} • Vindriktning: ${direction} • Väder: ${conditions}`;
+        }
+
+        function getCatchMarkerColor(species) {
+            const normalizedSpecies = (species || "").trim().toLowerCase();
+            switch (normalizedSpecies) {
+                case "abborre":
+                    return "#f4c542";
+                case "gädda":
+                    return "#2ea76a";
+                case "havsöring":
+                    return "#d94b4b";
+                default:
+                    return "#a33324";
+            }
+        }
+
+        function getWeatherSummary(cloudCover) {
+            if (!Number.isFinite(cloudCover)) {
+                return "Väder: okänt";
+            }
+            if (cloudCover <= 20) {
+                return "Väder: klart";
+            }
+            if (cloudCover <= 50) {
+                return "Väder: delvis molnigt";
+            }
+            if (cloudCover <= 80) {
+                return "Väder: molnigt";
+            }
+            return "Väder: mulet";
+        }
+
+        function appendWeatherAttribution(container, weather) {
+            if (!weather) {
+                return;
+            }
+            const source = weather.source || "Okänd källa";
+            const sourceLine = document.createElement("div");
+            sourceLine.append("Källa: ", source, " (närmaste tillgängliga timvärde)");
+            if (source.includes("SMHI")) {
+                const link = document.createElement("a");
+                link.href = "https://www.smhi.se/data/om-smhis-data/villkor-for-anvandning";
+                link.target = "_blank";
+                link.rel = "noreferrer";
+                link.textContent = "SMHI:s öppna data";
+                sourceLine.append(" · ", link);
+            }
+            if (source.includes("Open-Meteo")) {
+                const link = document.createElement("a");
+                link.href = "https://open-meteo.com/";
+                link.target = "_blank";
+                link.rel = "noreferrer";
+                link.textContent = "Open-Meteo";
+                sourceLine.append(" · ", link);
+                const licenseLink = document.createElement("a");
+                licenseLink.href = "https://creativecommons.org/licenses/by/4.0/";
+                licenseLink.target = "_blank";
+                licenseLink.rel = "noreferrer";
+                licenseLink.textContent = "CC BY 4.0";
+                sourceLine.append(" · ", licenseLink);
+            }
+            container.append(sourceLine);
         }
 
         function createCatchPopup(entry) {
@@ -1175,19 +1244,129 @@
                 details.textContent = measurements.join(" · ");
                 content.append(details);
             }
+
+            const weatherInfo = document.createElement("div");
+            if (entry.weather) {
+                const temperature = Number.isFinite(entry.weather.temperature_2m)
+                    ? `${entry.weather.temperature_2m.toFixed(1)} °C`
+                    : "–";
+                const wind = Number.isFinite(entry.weather.wind_speed_10m)
+                    ? `${entry.weather.wind_speed_10m.toFixed(1)} m/s`
+                    : "–";
+                const direction = Number.isFinite(entry.weather.wind_direction_10m)
+                    ? formatWindDirection(entry.weather.wind_direction_10m)
+                    : "–";
+                const summary = getWeatherSummary(entry.weather.cloud_cover);
+                const weatherDetails = document.createElement("div");
+                weatherDetails.textContent = `Temperatur: ${temperature}\nVind: ${wind}\nVindriktning: ${direction}\n${summary}`;
+                weatherDetails.style.whiteSpace = "pre-line";
+                weatherInfo.append(weatherDetails);
+                if (entry.weather.source) {
+                    const moreInfoButton = document.createElement("button");
+                    moreInfoButton.type = "button";
+                    moreInfoButton.className = "catch-map-select";
+                    moreInfoButton.textContent = "Mer info";
+                    moreInfoButton.setAttribute("aria-expanded", "false");
+                    const extraInfo = document.createElement("div");
+                    extraInfo.hidden = true;
+                    extraInfo.style.marginTop = "8px";
+                    if (entry.weather.station) {
+                        const stations = document.createElement("div");
+                        stations.textContent = `Stationer: ${entry.weather.station}`;
+                        extraInfo.append(stations);
+                    }
+                    const approximation = document.createElement("div");
+                    approximation.textContent = `Närmaste tillgängliga timvärde: ${formatCatchDate(entry.weather.capturedAt)}.`;
+                    extraInfo.append(approximation);
+                    appendWeatherAttribution(extraInfo, entry.weather);
+                    moreInfoButton.addEventListener("click", () => {
+                        extraInfo.hidden = !extraInfo.hidden;
+                        moreInfoButton.setAttribute("aria-expanded", String(!extraInfo.hidden));
+                    });
+                    weatherInfo.append(moreInfoButton, extraInfo);
+                } else {
+                    const legacyNote = document.createElement("div");
+                    legacyNote.textContent = "Vädret sparades med en äldre version, så källan kan inte verifieras. Redigera och spara fångsten för att hämta vädret på nytt.";
+                    weatherInfo.append(legacyNote);
+                }
+            } else {
+                weatherInfo.textContent = "Väder: ej sparat";
+            }
+            content.append(weatherInfo);
             return content;
+        }
+
+        function createSelectedLocationPopup(latitude, longitude) {
+            const content = document.createElement("div");
+            const coordinates = document.createElement("div");
+            coordinates.textContent = `Latitud: ${latitude.toFixed(5)}\nLongitud: ${longitude.toFixed(5)}`;
+            coordinates.style.whiteSpace = "pre-line";
+
+            const weather = latestWeatherData && latestWeatherData.current ? latestWeatherData.current : null;
+            const temperatureText = weather && Number.isFinite(weather.temperature_2m)
+                ? `${weather.temperature_2m.toFixed(1)} °C`
+                : "–";
+            const windText = weather && Number.isFinite(weather.wind_speed_10m)
+                ? `${weather.wind_speed_10m.toFixed(1)} m/s`
+                : "–";
+            const weatherLine = document.createElement("div");
+            weatherLine.textContent = `Temperatur: ${temperatureText} • Vind: ${windText}`;
+
+            const logButton = document.createElement("button");
+            logButton.type = "button";
+            logButton.className = "catch-map-select";
+            logButton.textContent = "Logga fångst här";
+            logButton.addEventListener("click", () => {
+                openCatchFormAtCoordinates(latitude, longitude);
+            });
+
+            content.append(coordinates, weatherLine, logButton);
+            return content;
+        }
+
+        function getCatchSpeciesOptions() {
+            const species = [...new Set(catchEntries.map((entry) => entry.species).filter(Boolean))].sort((first, second) =>
+                first.localeCompare(second, "sv")
+            );
+            catchLogSpeciesFilterElement.replaceChildren();
+            const allOption = document.createElement("option");
+            allOption.value = "all";
+            allOption.textContent = "Alla arter";
+            catchLogSpeciesFilterElement.append(allOption);
+
+            for (const speciesName of species) {
+                const option = document.createElement("option");
+                option.value = speciesName;
+                option.textContent = speciesName;
+                catchLogSpeciesFilterElement.append(option);
+            }
+
+            if (!species.includes(catchLogSpeciesFilterElement.value) && catchLogSpeciesFilterElement.value !== "all") {
+                catchLogSpeciesFilterElement.value = "all";
+            }
         }
 
         function renderCatchEntries() {
             catchLogListElement.replaceChildren();
             catchMarkers.clearLayers();
-            const entriesWithLocation = catchEntries.filter((entry) => Number.isFinite(entry.lat));
-            catchLogEmptyElement.hidden = catchEntries.length > 0;
-            catchLogStatusElement.textContent = catchEntries.length === 0
-                ? "Loggarna sparas i den här webbläsaren."
-                : `${catchEntries.length} fångst${catchEntries.length === 1 ? "" : "er"} loggad${catchEntries.length === 1 ? "" : "e"} · ${entriesWithLocation.length} med plats på kartan.`;
+            const selectedSpeciesFilter = catchLogSpeciesFilterElement.value;
+            const filteredEntries = selectedSpeciesFilter === "all"
+                ? catchEntries
+                : catchEntries.filter((entry) => entry.species === selectedSpeciesFilter);
+            const entriesWithLocation = filteredEntries.filter((entry) => Number.isFinite(entry.lat));
+            catchLogEmptyElement.hidden = filteredEntries.length > 0;
+            catchLogStatusElement.textContent = filteredEntries.length === 0
+                ? selectedSpeciesFilter === "all"
+                    ? "Loggarna sparas i den här webbläsaren."
+                    : `Inga fångster registrerade för ${selectedSpeciesFilter}.`
+                : `${filteredEntries.length} fångst${filteredEntries.length === 1 ? "" : "er"} i visning • ${entriesWithLocation.length} med plats på kartan.`;
 
-            for (const entry of catchEntries) {
+            getCatchSpeciesOptions();
+            if (catchLogSpeciesFilterElement.value !== selectedSpeciesFilter) {
+                catchLogSpeciesFilterElement.value = selectedSpeciesFilter;
+            }
+
+            for (const entry of filteredEntries) {
                 const item = document.createElement("li");
                 item.className = "catch-entry";
                 const details = document.createElement("div");
@@ -1203,9 +1382,20 @@
                 }
                 const measurement = document.createElement("span");
                 measurement.textContent = facts.length > 0 ? facts.join(" · ") : "Ingen vikt eller längd angiven";
+                const weatherLine = document.createElement("span");
+                weatherLine.textContent = formatWeatherSnapshot(entry.weather);
                 const date = document.createElement("span");
                 date.textContent = formatCatchDate(entry.caughtAt);
-                details.append(title, measurement, date);
+                const weatherSource = document.createElement("span");
+                weatherSource.textContent = entry.weather?.source
+                    ? `Källa: ${entry.weather.source}`
+                    : "Källa: okänd (äldre logg)";
+                details.append(title, measurement, weatherLine, date);
+                if (entry.weather?.source) {
+                    appendWeatherAttribution(details, entry.weather);
+                } else if (entry.weather) {
+                    details.append(weatherSource);
+                }
 
                 const actions = document.createElement("div");
                 actions.className = "catch-entry-actions";
@@ -1226,7 +1416,7 @@
                         title: `${entry.species} · ${formatCatchDate(entry.caughtAt)}`,
                         icon: L.divIcon({
                             className: "",
-                            html: '<span class="catch-map-marker" aria-hidden="true"><span>●</span></span>',
+                            html: `<span class="catch-map-marker" aria-hidden="true" style="color: ${getCatchMarkerColor(entry.species)}"><span>●</span></span>`,
                             iconSize: [32, 40],
                             iconAnchor: [16, 36]
                         })
@@ -1234,6 +1424,44 @@
                     marker.catchEntryId = entry.id;
                     marker.addTo(catchMarkers);
                 }
+
+                const editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.textContent = "Redigera";
+                editButton.setAttribute("aria-label", `Redigera fångst: ${entry.species}`);
+                editButton.addEventListener("click", () => {
+                    const speciesOptions = Array.from(catchSpeciesElement.options).map((option) => option.value);
+                    if (speciesOptions.includes(entry.species)) {
+                        catchSpeciesElement.value = entry.species;
+                        customCatchSpeciesFieldElement.hidden = true;
+                        customCatchSpeciesElement.required = false;
+                        customCatchSpeciesElement.value = "";
+                    } else {
+                        catchSpeciesElement.value = "__other__";
+                        customCatchSpeciesFieldElement.hidden = false;
+                        customCatchSpeciesElement.required = true;
+                        customCatchSpeciesElement.value = entry.species;
+                    }
+
+                    catchWeightElement.value = entry.weight === null ? "" : String(entry.weight);
+                    catchLengthElement.value = entry.length === null ? "" : String(entry.length);
+                    selectedCatchCoordinates = Number.isFinite(entry.lat) && Number.isFinite(entry.lng)
+                        ? { lat: entry.lat, lng: entry.lng }
+                        : undefined;
+                    const sourceDate = entry.caughtAt ? new Date(entry.caughtAt) : new Date();
+                    const localDateTimeValue = Number.isNaN(sourceDate.getTime()) ? "" : new Date(sourceDate.getTime() - sourceDate.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                    catchTimeModeElement.value = "manual";
+                    catchDateTimeElement.value = localDateTimeValue;
+                    manualCatchTimeFieldElement.hidden = false;
+                    updateCatchLocationStatus();
+                    catchEntryBeingEdited = entry.id;
+                    catchDialogTitleElement.textContent = "Redigera fångst";
+                    catchFormErrorElement.hidden = true;
+                    catchFormErrorElement.textContent = "";
+                    catchDialog.showModal();
+                    updateCatchLocationStatus();
+                });
+                actions.append(editButton);
 
                 const deleteButton = document.createElement("button");
                 deleteButton.type = "button";
@@ -1249,6 +1477,23 @@
                 item.append(details, actions);
                 catchLogListElement.append(item);
             }
+        }
+
+        function openCatchFormAtCoordinates(lat, lng) {
+            catchEntryBeingEdited = null;
+            catchForm.reset();
+            catchDialogTitleElement.textContent = "Logga en fångst";
+            catchTimeModeElement.value = "now";
+            manualCatchTimeFieldElement.hidden = true;
+            catchDateTimeElement.value = "";
+            customCatchSpeciesFieldElement.hidden = true;
+            customCatchSpeciesElement.required = false;
+            customCatchSpeciesElement.value = "";
+            selectedCatchCoordinates = { lat, lng };
+            updateCatchLocationStatus();
+            catchFormErrorElement.hidden = true;
+            catchFormErrorElement.textContent = "";
+            catchDialog.showModal();
         }
 
         function updateCatchLocationStatus() {
@@ -1274,6 +1519,11 @@
 
         function resetCatchForm() {
             catchForm.reset();
+            catchEntryBeingEdited = null;
+            catchDialogTitleElement.textContent = "Logga en fångst";
+            catchTimeModeElement.value = "now";
+            manualCatchTimeFieldElement.hidden = true;
+            catchDateTimeElement.value = "";
             customCatchSpeciesFieldElement.hidden = true;
             customCatchSpeciesElement.required = false;
             selectedCatchCoordinates = undefined;
@@ -1286,7 +1536,32 @@
             catchFormErrorElement.textContent = "";
         }
 
-        function submitCatchEntry(event) {
+        function getCatchDateTimeValue() {
+            if (catchTimeModeElement.value === "manual") {
+                const value = catchDateTimeElement.value;
+                if (!value) {
+                    throw new Error("Välj datum och tid för en manuell fångst.");
+                }
+                return new Date(value).toISOString();
+            }
+            return new Date().toISOString();
+        }
+
+        async function fetchWeatherSnapshot(latitude, longitude, targetDateTime) {
+            const response = await fetch(resolveAppUrl("api/weather/snapshot"), {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ latitude, longitude, targetTime: targetDateTime })
+            });
+            const snapshot = await readJsonResponse(response, "Väderhämtningen");
+            if (!Number.isFinite(snapshot.temperature_2m) || !Number.isFinite(snapshot.wind_speed_10m)
+                || !Number.isFinite(snapshot.wind_direction_10m) || typeof snapshot.source !== "string") {
+                throw new Error("Väderkällan returnerade ofullständiga väderuppgifter.");
+            }
+            return snapshot;
+        }
+
+        async function submitCatchEntry(event) {
             event.preventDefault();
             const species = catchSpeciesElement.value === "__other__"
                 ? customCatchSpeciesElement.value.trim()
@@ -1306,18 +1581,45 @@
                 return;
             }
 
+            const existingEntry = catchEntries.find((savedEntry) => savedEntry.id === catchEntryBeingEdited) ?? null;
+            let caughtAtValue;
+            try {
+                caughtAtValue = getCatchDateTimeValue();
+            } catch (error) {
+                catchFormErrorElement.textContent = error.message;
+                catchFormErrorElement.hidden = false;
+                return;
+            }
+
+            let weatherSnapshot = null;
+            try {
+                if (selectedCatchCoordinates) {
+                    weatherSnapshot = await fetchWeatherSnapshot(selectedCatchCoordinates.lat, selectedCatchCoordinates.lng, caughtAtValue);
+                }
+            } catch (error) {
+                catchFormErrorElement.textContent = `Kunde inte spara vädret: ${error.message}`;
+                catchFormErrorElement.hidden = false;
+                return;
+            }
+
             const entry = {
-                id: crypto.randomUUID(),
+                id: existingEntry ? existingEntry.id : crypto.randomUUID(),
                 species,
                 weight,
                 length,
                 lat: selectedCatchCoordinates ? selectedCatchCoordinates.lat : null,
                 lng: selectedCatchCoordinates ? selectedCatchCoordinates.lng : null,
-                caughtAt: new Date().toISOString()
+                caughtAt: caughtAtValue,
+                weather: weatherSnapshot
             };
-            catchEntries.unshift(entry);
+
+            if (existingEntry) {
+                catchEntries = catchEntries.map((savedEntry) => savedEntry.id === existingEntry.id ? entry : savedEntry);
+            } else {
+                catchEntries.unshift(entry);
+            }
+
             if (!saveCatchEntries()) {
-                catchEntries.shift();
                 return;
             }
             renderCatchEntries();
@@ -1329,140 +1631,6 @@
             const directions = ["N", "NO", "O", "SO", "S", "SV", "V", "NV"];
             const index = Math.round(((degrees % 360) + 360) % 360 / 45) % directions.length;
             return directions[index];
-        }
-
-        function validateSavedSpots(data) {
-            if (!Array.isArray(data)) {
-                throw new Error("places.json måste innehålla en JSON-lista.");
-            }
-
-            const directions = ["N", "NO", "O", "SO", "S", "SV", "V", "NV"];
-            return data.map((spot, index) => {
-                const label = `Plats ${index + 1}`;
-                if (!spot || typeof spot !== "object" || Array.isArray(spot)) {
-                    throw new Error(`${label} måste vara ett JSON-objekt.`);
-                }
-                if (typeof spot.namn !== "string" || !spot.namn.trim()) {
-                    throw new Error(`${label} saknar ett giltigt namn.`);
-                }
-                if (!Number.isFinite(spot.lat) || spot.lat < -90 || spot.lat > 90
-                    || !Number.isFinite(spot.lng) || spot.lng < -180 || spot.lng > 180) {
-                    throw new Error(`${label} har ogiltiga koordinater.`);
-                }
-                if (!Array.isArray(spot.arter) || spot.arter.length === 0
-                    || spot.arter.some((species) => typeof species !== "string" || !species.trim())) {
-                    throw new Error(`${label} måste ha minst en art i fältet arter.`);
-                }
-                if (typeof spot.bottentyp !== "string" || !spot.bottentyp.trim()) {
-                    throw new Error(`${label} saknar en giltig bottentyp.`);
-                }
-                if (!Array.isArray(spot.vindskydd)
-                    || spot.vindskydd.some((direction) => !directions.includes(direction))) {
-                    throw new Error(`${label} har ogiltiga vindriktningar i vindskydd. Använd N, NO, O, SO, S, SV, V eller NV.`);
-                }
-                return {
-                    namn: spot.namn.trim(),
-                    lat: spot.lat,
-                    lng: spot.lng,
-                    arter: spot.arter.map((species) => species.trim()),
-                    bottentyp: spot.bottentyp.trim(),
-                    vindskydd: [...spot.vindskydd]
-                };
-            });
-        }
-
-        function createSavedSpotPopup(spot) {
-            const content = document.createElement("div");
-            const title = document.createElement("strong");
-            title.textContent = spot.namn;
-            const details = document.createElement("p");
-            details.textContent = `Arter: ${spot.arter.join(", ")} · Botten: ${spot.bottentyp}`;
-            const shelter = document.createElement("p");
-            shelter.textContent = `Skyddad från: ${spot.vindskydd.length > 0 ? spot.vindskydd.join(", ") : "inget angivet"}`;
-            content.append(title, details, shelter);
-            return content;
-        }
-
-        function renderSavedSpots() {
-            savedSpotsListElement.replaceChildren();
-            const windDirection = Number.isFinite(latestWindDirection)
-                ? formatWindDirection(latestWindDirection)
-                : undefined;
-            const sortedSpots = savedSpots
-                .map((spot, index) => ({
-                    spot,
-                    index,
-                    sheltered: windDirection !== undefined && spot.vindskydd.includes(windDirection)
-                }))
-                .sort((first, second) => {
-                    if (first.sheltered !== second.sheltered) {
-                        return first.sheltered ? -1 : 1;
-                    }
-                    return first.spot.namn.localeCompare(second.spot.namn, "sv");
-                });
-
-            for (const { spot, index, sheltered } of sortedSpots) {
-                const item = document.createElement("li");
-                item.className = "saved-spot";
-                const details = document.createElement("div");
-                details.className = "saved-spot-details";
-                const name = document.createElement("strong");
-                name.textContent = spot.namn;
-                const description = document.createElement("span");
-                description.textContent = `Arter: ${spot.arter.join(", ")} · Botten: ${spot.bottentyp}`;
-                const shelter = document.createElement("span");
-                shelter.className = sheltered ? "saved-spot-sheltered" : "";
-                shelter.textContent = windDirection === undefined
-                    ? `Vindskydd: ${spot.vindskydd.length > 0 ? spot.vindskydd.join(", ") : "inget angivet"}`
-                    : sheltered
-                        ? `Skyddad från dagens vind (${windDirection})`
-                        : `Inte skyddad från dagens vind (${windDirection})`;
-                details.append(name, description, shelter);
-
-                const button = document.createElement("button");
-                button.className = "saved-spot-button";
-                button.type = "button";
-                button.textContent = "Visa på kartan";
-                button.addEventListener("click", () => {
-                    const savedSpot = savedSpots[index];
-                    map.flyTo([savedSpot.lat, savedSpot.lng], Math.max(map.getZoom(), 14));
-                    savedSpot.marker.openPopup();
-                });
-                item.append(details, button);
-                savedSpotsListElement.append(item);
-            }
-
-            savedSpotsStatusElement.classList.remove("saved-spots-error");
-            if (savedSpots.length === 0) {
-                savedSpotsStatusElement.textContent = "Inga sparade platser ännu. Lägg till platser i places.json.";
-            } else if (windDirection === undefined) {
-                savedSpotsStatusElement.textContent = `${savedSpots.length} platser · sorterade alfabetiskt tills väder hämtats.`;
-            } else {
-                const shelteredCount = sortedSpots.filter(({ sheltered }) => sheltered).length;
-                savedSpotsStatusElement.textContent =
-                    `${savedSpots.length} platser · ${shelteredCount} skyddade från dagens vind (${windDirection}), visade först.`;
-            }
-        }
-
-        async function loadSavedSpots() {
-            try {
-                const response = await fetch(resolveAppUrl("places.json"));
-                if (!response.ok) {
-                    throw new Error(`places.json svarade med HTTP ${response.status}.`);
-                }
-                const data = await response.json();
-                const spots = validateSavedSpots(data);
-                savedSpots = spots.map((spot) => ({
-                    ...spot,
-                    marker: L.marker([spot.lat, spot.lng], { title: spot.namn, alt: spot.namn })
-                        .bindPopup(createSavedSpotPopup(spot))
-                        .addTo(savedSpotMarkers)
-                }));
-                renderSavedSpots();
-            } catch (error) {
-                savedSpotsStatusElement.textContent = `Kunde inte läsa sparade platser: ${error.message}`;
-                savedSpotsStatusElement.classList.add("saved-spots-error");
-            }
         }
 
         function resolveAppUrl(path) {
@@ -1619,7 +1787,10 @@
         }
 
         function parseLocalDateTime(value) {
-            return Date.parse(`${value}:00Z`);
+            if (typeof value !== "string" || !value) {
+                return Number.NaN;
+            }
+            return Date.parse(value.replace("Z", ""));
         }
 
         function getCurrentHourlyIndex(data) {
@@ -1937,8 +2108,6 @@
             const request = weatherRequest;
             latestConditions = undefined;
             latestWeatherData = undefined;
-            latestWindDirection = undefined;
-            renderSavedSpots();
             evaluationElement.hidden = true;
             timelineElement.hidden = true;
             const query = new URLSearchParams({
@@ -1981,9 +2150,11 @@
                 }
 
                 latestWeatherData = data;
-                latestWindDirection = data.current.wind_direction_10m;
-                renderSavedSpots();
                 updateWindArrow(latitude, longitude, data.current.wind_direction_10m);
+                if (selectedMarker) {
+                    selectedMarker.bindPopup(createSelectedLocationPopup(latitude, longitude));
+                    selectedMarker.openPopup();
+                }
 
                 const currentRow = document.createElement("tr");
                 for (const field of weatherFields) {
@@ -2052,10 +2223,21 @@
             { collapsed: false }
         ).addTo(map);
 
-        void loadSavedSpots();
+        catchLogSpeciesFilterElement.addEventListener("change", renderCatchEntries);
+        catchTimeModeElement.addEventListener("change", () => {
+            manualCatchTimeFieldElement.hidden = catchTimeModeElement.value !== "manual";
+            if (catchTimeModeElement.value === "manual") {
+                if (!catchDateTimeElement.value) {
+                    const now = new Date();
+                    catchDateTimeElement.value = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                }
+            }
+        });
         loadCatchEntries();
 
         addCatchButton.addEventListener("click", () => {
+            catchEntryBeingEdited = null;
+            resetCatchForm();
             catchFormErrorElement.hidden = true;
             catchDialog.showModal();
         });
@@ -2126,7 +2308,8 @@
                 selectedMarker = L.marker(position).addTo(map);
             }
 
-            selectedMarker.bindPopup(`Vald plats<br>Latitud: ${latitude}<br>Longitud: ${longitude}`);
+            selectedMarker.bindPopup(createSelectedLocationPopup(lat, lng));
+            selectedMarker.openPopup();
             coordinatesElement.textContent = `${latitude}, ${longitude}`;
             void loadWeather(lat, lng);
         });

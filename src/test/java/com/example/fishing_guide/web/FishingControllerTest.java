@@ -2,18 +2,21 @@ package com.example.fishing_guide.web;
 
 import com.example.fishing_guide.rules.Conditions;
 import com.example.fishing_guide.rules.RuleEngine;
+import com.example.fishing_guide.weather.WeatherSnapshotService;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class FishingControllerTest {
 
-    private final FishingController controller = new FishingController(new RuleEngine());
+    private final FishingController controller = new FishingController(new RuleEngine(), mock(WeatherSnapshotService.class));
 
     @Test
     void evaluatesSwedishSpeciesName() {
@@ -68,5 +71,17 @@ class FishingControllerTest {
     void rejectsEmptyForecast() {
         assertThrows(ResponseStatusException.class, () -> controller.evaluateForecast(
                 new FishingController.ForecastEvaluationRequest("abborre", List.of())));
+    }
+
+    @Test
+    void rejectsWeatherCoordinatesOutsideValidRange() {
+        assertThrows(ResponseStatusException.class, () -> controller.weatherSnapshot(
+                new FishingController.WeatherSnapshotRequest(91.0, 18.0, Instant.now())));
+    }
+
+    @Test
+    void rejectsWeatherRequestsOlderThanFiveYears() {
+        assertThrows(ResponseStatusException.class, () -> controller.weatherSnapshot(
+                new FishingController.WeatherSnapshotRequest(59.0, 18.0, Instant.now().minusSeconds(6L * 365 * 24 * 60 * 60))));
     }
 }
